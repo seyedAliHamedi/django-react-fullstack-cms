@@ -13,11 +13,31 @@ class CreateUserView(generics.CreateAPIView):
 
 class BlogView(generics.ListCreateAPIView):
     serializer_class = BlogSerializer
-    queryset = Blog.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Blog.objects.filter(author=user)
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(author=self.request.user)
+        else:
+            print(serializer.errors)
+
+
+class BlogDelete(generics.DestroyAPIView):
+    serializer_class = BlogSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Blog.objects.filter(author=user)
 
 
 class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BlogSerializer
+    permission_classes = [IsAuthenticated]
     queryset = Blog.objects.all()
 
 

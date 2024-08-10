@@ -21,6 +21,8 @@ class Blog(models.Model):
         choices=CategoryChoices.choices,
         default=CategoryChoices.TECHNOLOGY
     )
+    author = models.ForeignKey(
+        User, related_name='blogs', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

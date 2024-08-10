@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
-
+import CustomForm from "./../components/CustomForm";
 export default class Login extends Component {
   constructor(props) {
     super(props);
+  }
+  render() {
+    return <CustomForm route={"/api/token/"} method="login" />;
   }
 }

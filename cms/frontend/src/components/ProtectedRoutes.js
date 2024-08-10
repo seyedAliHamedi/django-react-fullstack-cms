@@ -1,3 +1,4 @@
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import api from "./../api";
@@ -46,7 +47,7 @@ function ProtectedRoutes({ childeren }) {
     return <div>Loading ....</div>;
   }
 
-  return isAutherized ? childeren : <Navigate to="/login"></Navigate>;
+  return isAutherized ? childeren : <Navigate to="/frontend/login"></Navigate>;
 }
 
 export default ProtectedRoutes;

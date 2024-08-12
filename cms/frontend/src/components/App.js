@@ -6,6 +6,7 @@ import Login from "./../pages/Login";
 import Register from "./../pages/Register";
 import NotFound from "./../pages/NotFound";
 import Home from "./../pages/Home";
+import Explore from "./../pages/Explore";
 
 function Logout() {
   localStorage.clear();
@@ -27,10 +28,12 @@ export default class App extends Component {
           <Route path="/frontend/logout" element={<Logout />} />
           <Route path="/frontend/login" element={<Login />} />
           <Route path="/frontend/register" element={<Register />} />
+          <Route path="/frontend/explore" element={<Explore />} />
           <Route
             path="/frontend"
             element={<ProtectedRoutes childeren={<Home />} />}
           />
+
           <Route path="/frontend/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

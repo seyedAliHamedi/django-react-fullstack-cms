@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import Blog from "./../components/Blog";
 import "./../../static/style/home.css";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [blogs, setBlogs] = useState([]);
@@ -11,6 +12,7 @@ function Home() {
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
 
+  const navigate = useNavigate();
   useEffect(() => {
     getBlogs();
   }, []);
@@ -21,7 +23,6 @@ function Home() {
       .then((res) => res.data)
       .then((data) => {
         setBlogs(data);
-        console.log(data);
       })
       .catch((err) => alert(err));
   };
@@ -40,11 +41,22 @@ function Home() {
         alert(err);
       });
   };
-  const updateBlog = (id) => {
+  const updateBlog = (
+    id,
+    updatedTitle,
+    updatedDescription,
+    updatedCategory,
+    updatedTags
+  ) => {
     api
-      .put(`/api/blogs/update/${id}`, { title, description, category, tags })
+      .put(`/api/blogs/update/${id}`, {
+        title: updatedTitle,
+        description: updatedDescription,
+        category: updatedCategory,
+        tags: updatedTags,
+      })
       .then((res) => {
-        if (res.status == 203) {
+        if (res.status == 200) {
           alert("Blog updated!");
         } else {
           alert("Failed tp update to Blog");
@@ -75,13 +87,25 @@ function Home() {
         alert(err);
       });
   };
-
+  const navigateToExplore = () => {
+    navigate("/frontend/explore");
+  };
   return (
     <div>
       <div>
-        <h2>Blogs</h2>
+        <div className="header">
+          <h2>Blogs</h2>
+          <button onClick={navigateToExplore} className="explore-button">
+            Explore All Blogs
+          </button>
+        </div>
         {blogs.map((blog) => (
-          <Blog blog={blog} onDelete={deleteBlog} key={blog.id} />
+          <Blog
+            blog={blog}
+            onDelete={deleteBlog}
+            onUpdate={updateBlog}
+            key={blog.id}
+          />
         ))}
       </div>
       <h2>Create a Blog </h2>

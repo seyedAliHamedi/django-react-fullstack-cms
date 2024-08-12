@@ -11,6 +11,12 @@ class CreateUserView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
+class AllBlogView(generics.ListAPIView):
+    serializer_class = BlogSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Blog.objects.all()
+
+
 class BlogView(generics.ListAPIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAuthenticated]

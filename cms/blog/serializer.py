@@ -17,10 +17,11 @@ class UserSerializer(serializers.ModelSerializer):
 class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
-        fields = ('__all__')
+        fields = (["id", "title", "description",
+                  "tags", "category", 'created_at'])
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('__all__')
+        fields = ["id", "body", "blog", "created_at"]

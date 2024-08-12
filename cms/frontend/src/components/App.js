@@ -8,7 +8,6 @@ import NotFound from "./../pages/NotFound";
 import Home from "./../pages/Home";
 
 function Logout() {
-  console.log("oooooo");
   localStorage.clear();
   return <Login />;
 }

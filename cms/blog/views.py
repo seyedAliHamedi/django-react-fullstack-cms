@@ -11,19 +11,13 @@ class CreateUserView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
-class BlogView(generics.ListCreateAPIView):
+class BlogView(generics.ListAPIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
         return Blog.objects.filter(author=user)
-
-    def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save(author=self.request.user)
-        else:
-            print(serializer.errors)
 
 
 class BlogDelete(generics.DestroyAPIView):
@@ -35,17 +29,42 @@ class BlogDelete(generics.DestroyAPIView):
         return Blog.objects.filter(author=user)
 
 
-class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
+class BlogUpdate(generics.UpdateAPIView):
     serializer_class = BlogSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Blog.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+        return Blog.objects.filter(author=user)
 
 
-class CommentView(generics.ListCreateAPIView):
+class BlogCreate(generics.CreateAPIView):
+    serializer_class = BlogSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(author=self.request.user)
+        else:
+            print(serializer.errors)
+
+
+class CommentView(generics.ListAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
 
 
-class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+class CommentDelete(generics.DestroyAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
+
+
+class CommentCreate(generics.CreateAPIView):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(author=self.request.user)
+        else:
+            print(serializer.errors)

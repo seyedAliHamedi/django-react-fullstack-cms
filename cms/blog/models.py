@@ -14,8 +14,7 @@ class CategoryChoices(models.TextChoices):
 class Blog(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
-    tags = ArrayField(models.CharField(max_length=100),
-                      blank=True, default=list)
+    tags = models.CharField(max_length=500)
     category = models.CharField(
         max_length=4,
         choices=CategoryChoices.choices,

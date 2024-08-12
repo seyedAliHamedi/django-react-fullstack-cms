@@ -9,20 +9,24 @@ function ProtectedRoutes({ childeren }) {
   const [isAutherized, setIsAutherized] = useState(null);
 
   useEffect(() => {
-    auth().catch(() => setIsAutherized(false));
+    auth().catch((error) => {
+      alert(error);
+      setIsAutherized(false);
+    });
   }, []);
 
   const refreshToken = async () => {
-    const refreshToken = localStorage.getItem(REFRESH_TOEKN);
+    const refreshedToken = localStorage.getItem(REFRESH_TOEKN);
     try {
-      const res = await api.post("/token/refresh/", { refresh: refreshToken });
+      const res = api.post("/api/token/refresh/", {
+        refresh: refreshedToken,
+      });
       if (res.status == 200) {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         setIsAutherized(true);
       }
       setIsAutherized(false);
     } catch (error) {
-      console.log(error);
       setIsAutherized(false);
     }
   };
@@ -44,7 +48,7 @@ function ProtectedRoutes({ childeren }) {
   };
 
   if (isAutherized == null) {
-    return <div>Loading ....</div>;
+    return <div>aaaa ....</div>;
   }
 
   return isAutherized ? childeren : <Navigate to="/frontend/login"></Navigate>;
